@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FlukyPick</string>
+    <string name="channel_description">flukyChannel</string>
+    <string name="notification_message_body">Preventing Accidental Touch</string>
+</resources>
