@@ -1,3 +1,14 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+//   Fluky Pick - https://github.com/codebasepk/fluky-pick
+//
+//   Copyright (c) Codebase PK
+//
+//   Licensed under the MIT License.
+//   http://www.opensource.org/licenses/mit-license.php
+//
+///////////////////////////////////////////////////////////////////////////////
+
 package pk.codebase.flukypick;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // check READ_PHONE_STATE permission
-        if (!Helpers.hasReadPhoneStatePermission(this)) {
-            Helpers.requestReadPhoneStatePermission(MainActivity.this);
-        }
+        Helpers.ensurePhoneStateReadPermission(this);
     }
-
 }
