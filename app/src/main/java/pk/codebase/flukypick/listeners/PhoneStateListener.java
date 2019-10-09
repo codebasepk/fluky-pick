@@ -20,7 +20,6 @@ import android.telephony.TelephonyManager;
 import java.util.Objects;
 
 import pk.codebase.flukypick.services.ProximityService;
-import pk.codebase.flukypick.utils.AppGlobals;
 import pk.codebase.flukypick.utils.Helpers;
 
 public class PhoneStateListener extends BroadcastReceiver {
@@ -47,7 +46,8 @@ public class PhoneStateListener extends BroadcastReceiver {
                         ProximityService.class));
             }
         } else {
-            ((AppGlobals) context.getApplicationContext()).stopListening();
+            context.stopService(new Intent(context.getApplicationContext(),
+                    ProximityService.class));
         }
     }
 }

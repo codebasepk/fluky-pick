@@ -40,6 +40,9 @@ public class AppGlobals extends Application {
 
     public void stopListening() {
         mSensorManager.unregisterListener(mListener);
+        if (mWakeLock != null && mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
     }
 
     private SensorEventListener mListener = new SensorEventListener() {
