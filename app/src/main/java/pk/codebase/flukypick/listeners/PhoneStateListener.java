@@ -16,6 +16,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.util.Objects;
 
@@ -42,7 +43,7 @@ public class PhoneStateListener extends BroadcastReceiver {
 
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
             if (keyguardManager.inKeyguardRestrictedInputMode()) {
-                context.startForegroundService(new Intent(context.getApplicationContext(),
+                context.startService(new Intent(context.getApplicationContext(),
                         ProximityService.class));
             }
         } else {
