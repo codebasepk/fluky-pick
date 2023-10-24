@@ -32,6 +32,7 @@ public class ProximityService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        startForeground(1, showNotification(intent, startId));
         ((AppGlobals) getApplication()).startListening();
         return START_NOT_STICKY;
     }
@@ -42,6 +43,43 @@ public class ProximityService extends Service {
         return null;
     }
 
+    private Notification showNotification(Intent intent, int id) {
+        NotificationManager notificationManager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+        String channelId = getPackageName();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,
+                channelId)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.notification_message_body))
+                .setTicker(getString(R.string.app_name))
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setChannelId(channelId)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentIntent(pendingIntent)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                .setLargeIcon(bitmap);
+        NotificationChannel channel = new NotificationChannel(channelId,
+                getString(R.string.app_name),
+                NotificationManager.IMPORTANCE_HIGH);
+
+        channel.setSound(null, null);
+        channel.setDescription(getString(R.string.channel_description));
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        if (notificationManager != null) {
+            notificationManager.notify(id /* ID of notification */, notificationBuilder.build());
+        }
+        return notificationBuilder.build();
+    }
 
     @Override
     public void onDestroy() {
